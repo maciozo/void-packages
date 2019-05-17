@@ -241,24 +241,6 @@ do_install() {
 	mkdir -p ${hdrdest}/net/mac80211/
 	cp net/mac80211/*.h ${hdrdest}/net/mac80211
 
-	# add dvb headers for external modules
-	mkdir -p ${hdrdest}/include/config/dvb/
-	cp include/config/dvb/*.h ${hdrdest}/include/config/dvb/
-
-	# add dvb headers for http://mcentral.de/hg/~mrec/em28xx-new
-	mkdir -p ${hdrdest}/drivers/media/dvb-frontends
-	cp drivers/media/dvb-frontends/lgdt330x.h \
-		${hdrdest}/drivers/media/dvb-frontends/
-	cp drivers/media/i2c/msp3400-driver.h ${hdrdest}/drivers/media/i2c/
-
-	# add dvb headers
-	mkdir -p ${hdrdest}/drivers/media/usb/dvb-usb
-	cp drivers/media/usb/dvb-usb/*.h ${hdrdest}/drivers/media/usb/dvb-usb/
-	mkdir -p ${hdrdest}/drivers/media/dvb-frontends
-	cp drivers/media/dvb-frontends/*.h ${hdrdest}/drivers/media/dvb-frontends/
-	mkdir -p ${hdrdest}/drivers/media/tuners
-	cp drivers/media/tuners/*.h ${hdrdest}/drivers/media/tuners/
-
 	# Add xfs and shmem for aufs building
 	mkdir -p ${hdrdest}/fs/xfs/libxfs
 	mkdir -p ${hdrdest}/mm
