@@ -4,14 +4,14 @@ version=5.4
 revision=1
 build_style=gnu-configure
 nocross=yes
-configure_args="--without-gstreamer"
+configure_args="--without-gstreamer --with-opencl"
 short_desc="Run Microsoft Windows applications"
 maintainer="Orphaned <orphan@voidlinux.org>"
 license="LGPL-2.1-or-later"
 homepage="http://www.winehq.org/"
-distfiles="https://dl.winehq.org/wine/source/${version%%.*}.x/wine-${version}.tar.xz"
-checksum=4b3e2b0ffa5415f199540e6051c28c3976fce91ea5bfb2cf4a099c257317052c
-
+distfiles="https://dl.winehq.org/wine/source/${version%.*}.x/wine-${version}.tar.xz https://github.com/wine-staging/wine-staging/archive/v${version}.tar.gz"
+checksum="91848e22fff3cb17db7fe7d727d714d21c5d4229dd460b5d1506753021fc799b 93dcf54754c34c2a34aeac4e42b654b69dd804731c0049a0a1b12295adc8f4b7"
+ 
 nopie_files="/usr/bin/wine"
 
 archs="i686 x86_64"
@@ -19,7 +19,7 @@ if [ "$XBPS_TARGET_MACHINE" = "i686" ]; then
 	lib32mode=full
 fi
 
-hostmakedepends="pkg-config flex prelink"
+hostmakedepends="pkg-config flex prelink autoconf"
 
 makedepends="
 	gettext-devel
@@ -64,6 +64,11 @@ makedepends="
 	vkd3d-devel
 	SDL2-devel
 	glibc-devel
+<<<<<<< HEAD
+=======
+	FAudio-devel
+	opencl2-headers
+>>>>>>> 7ad0429eef... update to 4.9. add opencl
 	"
  
 depends="
@@ -81,6 +86,12 @@ depends="
 	"
 
 binfmts="/usr/bin/wine --magic MZ"
+
+post_patch() {
+	cd ../wine-staging-${version}/patches
+	./patchinstall.sh DESTDIR=${wrksrc} --all
+	cd ${wrksrc}
+}
 
 if [ "$XBPS_TARGET_MACHINE" = "x86_64" ]; then
 	nopie_files+=" /usr/bin/winegcc /usr/bin/wine64 /usr/bin/widl /usr/bin/winebuild /usr/bin/winedump
