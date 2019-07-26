@@ -1,7 +1,7 @@
 # Template file for 'ranger'
 pkgname=ranger
 version=1.9.2
-revision=1
+revision=2
 archs=noarch
 build_style=python3-module
 pycompile_module="ranger"
@@ -15,6 +15,10 @@ license="GPL-3.0-only"
 homepage="https://ranger.github.io"
 distfiles="${homepage}/${pkgname}-${version}.tar.gz"
 checksum=0e1d1b1d3f78c227a6cfa783822e98591ca76a35c643d4814f40f73515d66b8a
+
+post_extract() {
+	sed -i 's/self\.backend\.LANCZOS/self\.backend\.NEAREST/g' ./ranger/ext/img_display.py
+}
 
 do_check() {
 	TERM=linux TERMINFO=/usr/share/terminfo make test
