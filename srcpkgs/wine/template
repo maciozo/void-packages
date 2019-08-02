@@ -64,11 +64,8 @@ makedepends="
 	vkd3d-devel
 	SDL2-devel
 	glibc-devel
-<<<<<<< HEAD
-=======
 	FAudio-devel
 	opencl2-headers
->>>>>>> 7ad0429eef... update to 4.9. add opencl
 	"
  
 depends="
