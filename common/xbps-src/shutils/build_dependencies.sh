@@ -247,18 +247,15 @@ install_pkg_deps() {
     # Target build dependencies.
     #
     if [[ ${makedepends} ]]; then
-        templates=""
+        local _makedepends=""
         # check validity
         for f in ${makedepends}; do
             if [ -f $XBPS_SRCPKGDIR/$f/template ]; then
-                templates+=" $f"
-                continue
-            fi
-            local _repourl=$($XBPS_QUERY_XCMD -R -prepository "$f" 2>/dev/null)
-            if [ "$_repourl" ]; then
-                echo "   [target] ${f}: found (${_repourl})"
+                _makedepends+=" $f"
+            elif [[ $f == *-32bit ]]; then
                 binpkg_deps+=("$f")
-                continue
+            else
+                msg_error "$pkgver: target dependency '$f' does not exist!\n"
             fi
             msg_error "$pkgver: target dependency '$f' does not exist!\n"
         done
@@ -290,24 +287,22 @@ install_pkg_deps() {
                 echo "   [target] ${_vpkg}: not found"
                 missing_deps+=("$_vpkg")
             fi
-        done < <($XBPS_CHECKVERS_XCMD -D $XBPS_DISTDIR -sm $templates)
+        done < <($XBPS_CHECKVERS_XCMD ${XBPS_SKIP_REMOTEREPOS:+-i} -D $XBPS_DISTDIR -sm ${_makedepends})
     fi
 
     #
     # Target run time dependencies
     #
     if [[ ${depends} ]]; then
-        templates=""
-        local _cleandeps=$(setup_pkg_depends "" 1) || exit 1
-        for f in ${_cleandeps}; do
+        local __deps=""
+        _deps=$(setup_pkg_depends "" 1) || exit 1
+        for f in ${_deps}; do
             if [ -f $XBPS_SRCPKGDIR/$f/template ]; then
-                templates+=" $f"
-                continue
-            fi
-            local _repourl=$($XBPS_QUERY_XCMD -R -prepository "$f" 2>/dev/null)
-            if [ "$_repourl" ]; then
-                echo "   [target] ${f}: found (${_repourl})"
-                continue
+                __deps+=" $f"
+            elif [[ $f == *-32bit ]]; then
+                true
+            else
+                msg_error "$pkgver: target dependency '$f' does not exist!\n"
             fi
             msg_error "$pkgver: target dependency '$f' does not exist!\n"
         done
@@ -338,7 +333,8 @@ install_pkg_deps() {
                 echo "   [runtime] ${_vpkg}: not found"
                 missing_rdeps+=("$_vpkg")
             fi
-        done < <($XBPS_CHECKVERS_XCMD -D $XBPS_DISTDIR -sm $templates)
+        done < <($XBPS_CHECKVERS_XCMD ${XBPS_SKIP_REMOTEREPOS:+-i} -D $XBPS_DISTDIR -sm $__deps)
+        unset _deps
     fi
 
     if [ -n "$XBPS_BUILD_ONLY_ONE_PKG" ]; then
