@@ -3,15 +3,15 @@ pkgname=wine
 version=5.4
 revision=1
 build_style=gnu-configure
-nocross=yes
+#nocross=yes
 configure_args="--without-gstreamer --with-opencl"
 short_desc="Run Microsoft Windows applications"
 maintainer="Orphaned <orphan@voidlinux.org>"
 license="LGPL-2.1-or-later"
 homepage="http://www.winehq.org/"
-distfiles="https://dl.winehq.org/wine/source/${version%.*}.x/wine-${version}.tar.xz https://github.com/wine-staging/wine-staging/archive/v${version}.tar.gz"
-checksum="91848e22fff3cb17db7fe7d727d714d21c5d4229dd460b5d1506753021fc799b 93dcf54754c34c2a34aeac4e42b654b69dd804731c0049a0a1b12295adc8f4b7"
- 
+distfiles="https://dl.winehq.org/wine/source/${version%%.*}.x/wine-${version}.tar.xz https://github.com/wine-staging/wine-staging/archive/v${version}.tar.gz"
+checksum="a0cf2d6925c60344367e0197760c84be738c56c50d559ac20cc19330c572d227 0efe47f2305c8f45aea403173c7cfba9adeae47940b218efa2a1916a69342906"
+
 nopie_files="/usr/bin/wine"
 
 archs="i686 x86_64"
@@ -95,7 +95,7 @@ if [ "$XBPS_TARGET_MACHINE" = "x86_64" ]; then
 			/usr/bin/wrc /usr/bin/wineserver /usr/bin/wmc"
 			
 	makedepends+=" 
-		gettext-devel-32bit
+		gettext-devel-32bit	
 		lcms2-devel-32bit
 		zlib-devel-32bit
 		ncurses-devel-32bit
