@@ -10,7 +10,7 @@ maintainer="Orphaned <orphan@voidlinux.org>"
 license="LGPL-2.1-or-later"
 homepage="http://www.winehq.org/"
 distfiles="https://dl.winehq.org/wine/source/${version%%.*}.x/wine-${version}.tar.xz https://github.com/wine-staging/wine-staging/archive/v${version}.tar.gz"
-checksum="a0cf2d6925c60344367e0197760c84be738c56c50d559ac20cc19330c572d227 0efe47f2305c8f45aea403173c7cfba9adeae47940b218efa2a1916a69342906"
+checksum="4b3e2b0ffa5415f199540e6051c28c3976fce91ea5bfb2cf4a099c257317052c 6a6a1083fab694ccdcb834eb68b69afde607c22e0635ad143f8ec0e2fc50b757"
 
 nopie_files="/usr/bin/wine"
 
@@ -19,7 +19,7 @@ if [ "$XBPS_TARGET_MACHINE" = "i686" ]; then
 	lib32mode=full
 fi
 
-hostmakedepends="pkg-config flex prelink"
+hostmakedepends="pkg-config flex prelink autoconf"
 
 makedepends="
 	gettext-devel
@@ -93,6 +93,8 @@ post_patch() {
 if [ "$XBPS_TARGET_MACHINE" = "x86_64" ]; then
 	nopie_files+=" /usr/bin/winegcc /usr/bin/wine64 /usr/bin/widl /usr/bin/winebuild /usr/bin/winedump
 			/usr/bin/wrc /usr/bin/wineserver /usr/bin/wmc"
+
+	hostmakedepends+=" cross-i686-w64-mingw32-crt"
 			
 	makedepends+=" 
 		gettext-devel-32bit	
