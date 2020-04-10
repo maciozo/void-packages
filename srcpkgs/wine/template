@@ -3,7 +3,7 @@ pkgname=wine
 version=5.4
 revision=1
 build_style=gnu-configure
-#nocross=yes
+nocross=yes
 configure_args="--without-gstreamer --with-opencl"
 short_desc="Run Microsoft Windows applications"
 maintainer="Orphaned <orphan@voidlinux.org>"
@@ -19,7 +19,7 @@ if [ "$XBPS_TARGET_MACHINE" = "i686" ]; then
 	lib32mode=full
 fi
 
-hostmakedepends="pkg-config flex prelink autoconf"
+hostmakedepends="pkg-config flex prelink"
 
 makedepends="
 	gettext-devel
@@ -150,6 +150,9 @@ if [ "$XBPS_TARGET_MACHINE" = "x86_64" ]; then
 		freetype
 		mit-krb5-libs
 		"
+
+	conflicts="wine-32bit"
+	provides="wine-32bit>=${version}_${revision}"
 		 
 	WINE="$XBPS_BUILDDIR/wine-$version"
 	WINE64="$WINE/../wine64/"
@@ -204,6 +207,6 @@ wine-devel_package() {
 	replaces="wine-unstable-devel>=0"
 	pkg_install() {
 		vmove usr/include
-		vmove "usr/lib/*.so"
+		#vmove "usr/lib/*.so"
 	}
 }
