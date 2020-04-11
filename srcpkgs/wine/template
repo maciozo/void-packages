@@ -1,6 +1,6 @@
 # Template file for 'wine'
 pkgname=wine
-version=5.4
+version=5.5
 revision=1
 build_style=gnu-configure
 nocross=yes
@@ -10,7 +10,7 @@ maintainer="Orphaned <orphan@voidlinux.org>"
 license="LGPL-2.1-or-later"
 homepage="http://www.winehq.org/"
 distfiles="https://dl.winehq.org/wine/source/${version%%.*}.x/wine-${version}.tar.xz https://github.com/wine-staging/wine-staging/archive/v${version}.tar.gz"
-checksum="4b3e2b0ffa5415f199540e6051c28c3976fce91ea5bfb2cf4a099c257317052c 6a6a1083fab694ccdcb834eb68b69afde607c22e0635ad143f8ec0e2fc50b757"
+checksum="a0e3139b0beaa8cd0cd3fbafc96cd6097df615caa7045f377aeccce70cddf5fc 3559ed0f91dd9a863b4d3df70c41cdba385ce7a64f15102501a39e9f2c53b69c"
 
 nopie_files="/usr/bin/wine"
 
@@ -86,7 +86,7 @@ binfmts="/usr/bin/wine --magic MZ"
 
 post_patch() {
 	cd ../wine-staging-${version}/patches
-	./patchinstall.sh DESTDIR=${wrksrc} --all
+	#./patchinstall.sh DESTDIR=${wrksrc} --all
 	cd ${wrksrc}
 }
 
@@ -94,8 +94,6 @@ if [ "$XBPS_TARGET_MACHINE" = "x86_64" ]; then
 	nopie_files+=" /usr/bin/winegcc /usr/bin/wine64 /usr/bin/widl /usr/bin/winebuild /usr/bin/winedump
 			/usr/bin/wrc /usr/bin/wineserver /usr/bin/wmc"
 
-	hostmakedepends+=" cross-i686-w64-mingw32-crt"
-			
 	makedepends+=" 
 		gettext-devel-32bit	
 		lcms2-devel-32bit
@@ -140,6 +138,7 @@ if [ "$XBPS_TARGET_MACHINE" = "x86_64" ]; then
 		SDL2-devel-32bit
 		glibc-devel-32bit
 		gcc-multilib
+		FAudio-devel-32bit
 		"
 		 
 	depends+=" 
@@ -209,6 +208,6 @@ wine-devel_package() {
 	replaces="wine-unstable-devel>=0"
 	pkg_install() {
 		vmove usr/include
-		#vmove "usr/lib/*.so"
+		vmove "usr/lib/*.so"
 	}
 }
