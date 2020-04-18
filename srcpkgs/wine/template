@@ -1,6 +1,6 @@
 # Template file for 'wine'
 pkgname=wine
-version=5.5
+version=5.6
 revision=1
 build_style=gnu-configure
 nocross=yes
@@ -10,7 +10,7 @@ maintainer="Orphaned <orphan@voidlinux.org>"
 license="LGPL-2.1-or-later"
 homepage="http://www.winehq.org/"
 distfiles="https://dl.winehq.org/wine/source/${version%%.*}.x/wine-${version}.tar.xz https://github.com/wine-staging/wine-staging/archive/v${version}.tar.gz"
-checksum="a0e3139b0beaa8cd0cd3fbafc96cd6097df615caa7045f377aeccce70cddf5fc 3559ed0f91dd9a863b4d3df70c41cdba385ce7a64f15102501a39e9f2c53b69c"
+checksum="50198a7e71d58fbdc521bbfde8b45bd9727b6cff5c8f101b586bc455d1bc00e6 37d186b309bf5ac10c3ab49bf77e624b8a637e77a0597369f8de0ce50293c92e"
 
 nopie_files="/usr/bin/wine"
 
