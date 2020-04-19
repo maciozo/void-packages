@@ -9,8 +9,8 @@ short_desc="Run Microsoft Windows applications"
 maintainer="Orphaned <orphan@voidlinux.org>"
 license="LGPL-2.1-or-later"
 homepage="http://www.winehq.org/"
-distfiles="https://dl.winehq.org/wine/source/${version%%.*}.0/wine-${version}.tar.xz https://github.com/wine-staging/wine-staging/archive/v${version}.tar.gz"
-checksum="181550ba69a80b00c631f80c28ff7642264613bbecdb0c0fc04d6534866713b4 5c3f282cd595a7114e7f1131044f89f0c84a2499a5fe34f1b2fb38954464edc2"
+#distfiles="https://dl.winehq.org/wine/source/${version%%.*}.0/wine-${version}.tar.xz https://github.com/wine-staging/wine-staging/archive/v${version}.tar.gz"
+#checksum="181550ba69a80b00c631f80c28ff7642264613bbecdb0c0fc04d6534866713b4 5c3f282cd595a7114e7f1131044f89f0c84a2499a5fe34f1b2fb38954464edc2"
 
 nopie_files="/usr/bin/wine"
 
@@ -19,7 +19,7 @@ if [ "$XBPS_TARGET_MACHINE" = "i686" ]; then
 	lib32mode=full
 fi
 
-hostmakedepends="pkg-config flex prelink autoconf"
+hostmakedepends="pkg-config flex prelink autoconf git"
 
 makedepends="
 	gettext-devel
@@ -84,11 +84,16 @@ depends="
 
 binfmts="/usr/bin/wine --magic MZ"
 
-post_patch() {
-	cd ../wine-staging-${version}/patches
+do_fetch() {
+	git clone -b "lutris-${version}" --depth 1 https://github.com/lutris/wine.git
+	mv wine "wine-${version}"
+}	
+
+#post_patch() {
+#	cd ../wine-staging-${version}/patches
 	#./patchinstall.sh DESTDIR=${wrksrc} --all
-	cd ${wrksrc}
-}
+#	cd ${wrksrc}
+#}
 
 if [ "$XBPS_TARGET_MACHINE" = "x86_64" ]; then
 	nopie_files+=" /usr/bin/winegcc /usr/bin/wine64 /usr/bin/widl /usr/bin/winebuild /usr/bin/winedump
