@@ -1,0 +1,17 @@
+--- dlls/ntdll/virtual.c	2020-01-21 17:03:21.000000000 +0000
++++ dlls/ntdll/virtual.c	2020-04-19 13:44:44.850516840 +0100
+@@ -1553,6 +1553,14 @@
+         status = map_view( &view, NULL, total_size, 0, top_down, SEC_IMAGE | SEC_FILE |
+                            VPROT_COMMITTED | VPROT_READ | VPROT_EXEC | VPROT_WRITECOPY, zero_bits_64 );
+ 
++    if (status != STATUS_SUCCESS)
++	status = map_view( &view, base, total_size, 0, TRUE, SEC_IMAGE | SEC_FILE |
++			   VPROT_COMMITTED | VPROT_READ | VPROT_EXEC | VPROT_WRITECOPY, zero_bits_64 );
++
++    if (status != STATUS_SUCCESS)
++	status = map_view( &view, NULL, total_size, 0, TRUE, SEC_IMAGE | SEC_FILE |
++			   VPROT_COMMITTED | VPROT_READ | VPROT_EXEC | VPROT_WRITECOPY, zero_bits_64 );
++
+     if (status != STATUS_SUCCESS) goto error;
+ 
+     ptr = view->base;

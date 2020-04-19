@@ -1,6 +1,6 @@
 # Template file for 'wine'
 pkgname=wine
-version=5.6
+version=5.0
 revision=1
 build_style=gnu-configure
 nocross=yes
@@ -9,8 +9,8 @@ short_desc="Run Microsoft Windows applications"
 maintainer="Orphaned <orphan@voidlinux.org>"
 license="LGPL-2.1-or-later"
 homepage="http://www.winehq.org/"
-distfiles="https://dl.winehq.org/wine/source/${version%%.*}.x/wine-${version}.tar.xz https://github.com/wine-staging/wine-staging/archive/v${version}.tar.gz"
-checksum="50198a7e71d58fbdc521bbfde8b45bd9727b6cff5c8f101b586bc455d1bc00e6 37d186b309bf5ac10c3ab49bf77e624b8a637e77a0597369f8de0ce50293c92e"
+distfiles="https://dl.winehq.org/wine/source/${version%%.*}.0/wine-${version}.tar.xz https://github.com/wine-staging/wine-staging/archive/v${version}.tar.gz"
+checksum="181550ba69a80b00c631f80c28ff7642264613bbecdb0c0fc04d6534866713b4 5c3f282cd595a7114e7f1131044f89f0c84a2499a5fe34f1b2fb38954464edc2"
 
 nopie_files="/usr/bin/wine"
 
