@@ -1,0 +1,66 @@
+# Template file for 'makemkv'
+pkgname=makemkv
+version=1.17.7
+revision=1
+archs="i686 x86_64 aarch64 armv6hf armv6l armv7hf armv7l"
+build_wrksrc="${pkgname}-oss-${version}"
+#create_wrksrc=yes
+build_style=gnu-configure
+#configure_args=""
+#make_build_args=""
+#make_install_args=""
+#conf_files=""
+#make_dirs="/var/log/dir 0755 root root"
+hostmakedepends="pkg-config"
+makedepends="libssl1.1 expat-devel libavcodec qt5-devel zlib-devel glibc-devel ffmpeg-devel"
+depends="libavcodec"
+short_desc="DVD, BD, and UHD BD ripper"
+maintainer="maciozo <maciozo@maciozo.com>"
+license="custom:GuinpinSoft inc, LGPL-2.1-or-later"
+homepage="https://makemkv.com/"
+repository=nonfree
+distfiles="
+	https://www.makemkv.com/download/${pkgname}-oss-${version}.tar.gz
+	https://www.makemkv.com/download/${pkgname}-bin-${version}.tar.gz
+"
+checksum="
+	762e552d46f9ec75a7c62dcb7d97c0fd9e6a15120d0ef6f5a080cee291d3a0ef
+	8c5bc831bc952b1f873cc8450c64e392db0b2479b626d180f0ffc965668951d0
+"
+nopie_files="/usr/bin/makemkvcon"
+
+do_install() {
+	make DESTDIR=${DESTDIR} ${make_install_args} install
+
+	case $XBPS_MACHINE in
+		aarch64)
+			makemkvcon_arch=arm64
+			;;
+		armv6hf | armv6l | armv7hf | armv7l)
+			makemkvcon_arch=armel
+			;;
+		i686)
+			makemkvcon_arch=i386
+			;;
+		x86_64)
+			makemkvcon_arch=amd64
+			;;
+
+		*)
+			die
+			;;
+	esac
+
+	vbin "../${pkgname}-bin-${version}/bin/${makemkvcon_arch}/makemkvcon"
+	vmkdir /share/MakeMKV
+	vinstall "../${pkgname}-bin-${version}/src/share/appdata.tar" 644 /usr/share/MakeMKV
+	vinstall "../${pkgname}-bin-${version}/src/share/blues.jar" 644 /usr/share/MakeMKV
+	vinstall "../${pkgname}-bin-${version}/src/share/blues.policy" 644 /usr/share/MakeMKV
+
+	vlicense "../${pkgname}-bin-${version}/src/eula_en_linux.txt"
+}
+
+post_install() {
+	ln -s makemkvcon sdftool
+	vcopy sdftool "/usr/bin"
+}
