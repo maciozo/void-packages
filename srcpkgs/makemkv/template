@@ -1,6 +1,6 @@
 # Template file for 'makemkv'
 pkgname=makemkv
-version=1.17.7
+version=1.18.2
 revision=1
 archs="i686 x86_64 aarch64 armv6hf armv6l armv7hf armv7l"
 build_wrksrc="${pkgname}-oss-${version}"
@@ -24,8 +24,8 @@ distfiles="
 	https://www.makemkv.com/download/${pkgname}-bin-${version}.tar.gz
 "
 checksum="
-	762e552d46f9ec75a7c62dcb7d97c0fd9e6a15120d0ef6f5a080cee291d3a0ef
-	8c5bc831bc952b1f873cc8450c64e392db0b2479b626d180f0ffc965668951d0
+	b9497f5555c257f5d3c7f18b6ab03c74cff3ea4437e80349d618d115bf5fa445
+	bfc4c7cebc0f00497671ffd56e6a34f0770a9e6af7eff2f0127efa143f28636e
 "
 nopie_files="/usr/bin/makemkvcon"
 
